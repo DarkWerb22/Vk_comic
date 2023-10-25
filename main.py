@@ -10,7 +10,7 @@ def download_comic(url, path):
     response.raise_for_status()
     comic = response.json()
     picture_way = comic["img"]
-    coment = comic["alt"]
+    comic_coment = comic["alt"]
     picture_response = requests.get(picture_way)
     picture_response.raise_for_status()
     with open(path, "wb") as file:
