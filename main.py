@@ -86,14 +86,11 @@ def post_photo(token, group_id, attachments, message):
 if __name__=="__main__":
     number = random.randint(1, 2842)
     load_dotenv()
-    client_id = os.environ["CLIENT_ID"]
     token = os.environ["ACCESS_TOKEN"]
     group_id = os.environ["GROUP_ID"]
 
     upload_server = get_server(token, group_id)
-    album_id = upload_server["album_id"]
     upload_url = upload_server["upload_url"]
-    user_id = upload_server["user_id"]
 
     comic_url = f"https://xkcd.com/{number}/info.0.json"
     comic_coment = download_comic(comic_url, path=f"comic_{number}.png")
