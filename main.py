@@ -15,7 +15,7 @@ def download_comic(url, path):
     picture_response.raise_for_status()
     with open(path, "wb") as file:
         file.write(picture_response.content)
-    return coment
+    return comic_coment
 
 
 def check_vk_response(response):
