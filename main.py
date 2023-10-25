@@ -9,9 +9,9 @@ def download_comic(url, path):
     response = requests.get(url)
     response.raise_for_status()
     comic = response.json()
-    picture_way = comic["img"]
+    picture_path = comic["img"]
     comic_coment = comic["alt"]
-    picture_response = requests.get(picture_way)
+    picture_response = requests.get(picture_path
     picture_response.raise_for_status()
     with open(path, "wb") as file:
         file.write(picture_response.content)
@@ -46,8 +46,8 @@ def upload_image(url, path):
         }
         response = requests.post(url, files=files)
     response.raise_for_status()
-    image = response.json()
-    return image
+    image_response = response.json()
+    return image_response
 
 
 def save_photo(token, group_id, photo, hash, server):
