@@ -11,7 +11,7 @@ def download_comic(url, path):
     comic = response.json()
     picture_path = comic["img"]
     comic_coment = comic["alt"]
-    picture_response = requests.get(picture_path
+    picture_response = requests.get(picture_path)
     picture_response.raise_for_status()
     with open(path, "wb") as file:
         file.write(picture_response.content)
@@ -85,8 +85,8 @@ def post_photo(token, group_id, attachments, message):
 
 if __name__=="__main__":
     load_dotenv()
-    token = os.environ["ACCESS_TOKEN"]
-    group_id = os.environ["GROUP_ID"]
+    token = os.environ["VK_TOKEN"]
+    group_id = os.environ["VK_GROUP_ID"]
     comics_amount = 2842
     comic_number = random.randint(1, comics_amount)
     try:
