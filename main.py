@@ -26,7 +26,7 @@ def check_vk_response(response):
         return vk_response
 
 
-def get_server(token, group_id):
+def get_upload_server(token, group_id):
     url = "https://api.vk.com/method/photos.getWallUploadServer"
     params = {
         "access_token": token,
@@ -84,23 +84,27 @@ def post_photo(token, group_id, attachments, message):
 
 
 if __name__=="__main__":
-    number = random.randint(1, 2842)
     load_dotenv()
     token = os.environ["ACCESS_TOKEN"]
     group_id = os.environ["GROUP_ID"]
+    comics_amount = 2842
+    comic_number = random.randint(1, comics_amount)
+    try:
+        upload_server = get_upload_server(token, group_id)
+        upload_url = upload_server["upload_url"]
 
-    upload_server = get_server(token, group_id)
-    upload_url = upload_server["upload_url"]
+        comic_url = f"https://xkcd.com/{comic_number}/info.0.json"
+        comic_coment = download_comic(comic_url, path=f"comic_{comic_number}.png")
 
-    comic_url = f"https://xkcd.com/{number}/info.0.json"
-    comic_coment = download_comic(comic_url, path=f"comic_{number}.png")
+        upload_response = upload_image(upload_url, f"comic_{comic_number}.png")
+        server = upload_response["server"]
+        hash_image = upload_response["hash"]
+        photo = upload_response["photo"]
 
-    upload_response = upload_image(upload_url, f"comic_{number}.png")
-    server = upload_response["server"]
-    hash_image = upload_response["hash"]
-    photo = upload_response["photo"]
-
-    save_response = save_photo(token, group_id, photo, hash_image, server)
-    attachments=f"photo{save_response[0]['owner_id']}_{save_response[0]['id']}"
-    post_photo(token, group_id, attachments, message=comic_coment)
-    os.remove(path=f"comic_{number}.png")
+        save_response = save_photo(token, group_id, photo, hash_image, server)
+        attachments=f"photo{save_response[0]['owner_id']}_{save_response[0]['id']}"
+        post_photo(token, group_id, attachments, message=comic_coment)
+    except Exception as e:
+        print("Произошла ошибка", e)
+    finally:
+        os.remove(path=f"comic_{comic_number}.png")
