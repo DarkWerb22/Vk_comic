@@ -50,7 +50,7 @@ def upload_image(url, path):
     return image_response
 
 
-def save_photo(token, group_id, photo, hash, server):
+def save_photo(token, group_id, photo, hash_image, server):
     url = "https://api.vk.com/method/photos.saveWallPhoto"
     params = {
         "v": "5.154",
@@ -58,7 +58,7 @@ def save_photo(token, group_id, photo, hash, server):
     }
     data = {
         "photo": photo,
-        "hash": hash,
+        "hash": hash_image,
         "server": server,
         "group_id": group_id
     }
