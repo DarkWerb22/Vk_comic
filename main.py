@@ -10,12 +10,12 @@ def download_comic(url, path):
     response.raise_for_status()
     comic = response.json()
     picture_path = comic["img"]
-    comic_coment = comic["alt"]
+    comic_comment = comic["alt"]
     picture_response = requests.get(picture_path)
     picture_response.raise_for_status()
     with open(path, "wb") as file:
         file.write(picture_response.content)
-    return comic_coment
+    return comic_comment
 
 
 def check_vk_response(response):
@@ -94,7 +94,7 @@ if __name__=="__main__":
         upload_url = upload_server["upload_url"]
 
         comic_url = f"https://xkcd.com/{comic_number}/info.0.json"
-        comic_coment = download_comic(comic_url, path=f"comic_{comic_number}.png")
+        comic_comment = download_comic(comic_url, path=f"comic_{comic_number}.png")
 
         upload_response = upload_image(upload_url, f"comic_{comic_number}.png")
         server = upload_response["server"]
@@ -103,7 +103,7 @@ if __name__=="__main__":
 
         save_response = save_photo(token, group_id, photo, hash_image, server)
         attachments=f"photo{save_response[0]['owner_id']}_{save_response[0]['id']}"
-        post_photo(token, group_id, attachments, message=comic_coment)
+        post_photo(token, group_id, attachments, message=comic_comment)
     except Exception as e:
         print("Произошла ошибка", e)
     finally:
