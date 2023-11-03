@@ -26,7 +26,7 @@ def check_vk_response(response):
         return vk_response
 
 
-def get_upload_server(token, group_id):
+def get_server_url(token, group_id):
     url = "https://api.vk.com/method/photos.getWallUploadServer"
     params = {
         "access_token": token,
@@ -90,7 +90,7 @@ if __name__=="__main__":
     comics_amount = 2842
     comic_number = random.randint(1, comics_amount)
     try:
-        upload_server = get_upload_server(token, group_id)
+        upload_server = get_server_url(token, group_id)
         upload_url = upload_server["upload_url"]
 
         comic_url = f"https://xkcd.com/{comic_number}/info.0.json"
