@@ -50,7 +50,7 @@ def upload_image(url, path):
     return image_response
 
 
-def save_photo(token, group_id, photo, hash_image, server):
+def save_photo(token, group_id, photo, image_hash, server):
     url = "https://api.vk.com/method/photos.saveWallPhoto"
     params = {
         "v": "5.154",
@@ -58,7 +58,7 @@ def save_photo(token, group_id, photo, hash_image, server):
     }
     data = {
         "photo": photo,
-        "hash": hash_image,
+        "hash": image_hash,
         "server": server,
         "group_id": group_id
     }
@@ -98,13 +98,11 @@ if __name__=="__main__":
 
         upload_response = upload_image(upload_url, f"comic_{comic_number}.png")
         server = upload_response["server"]
-        hash_image = upload_response["hash"]
+        image_hash = upload_response["hash"]
         photo = upload_response["photo"]
 
-        save_response = save_photo(token, group_id, photo, hash_image, server)
+        save_response = save_photo(token, group_id, photo, image_hash, server)
         attachments=f"photo{save_response[0]['owner_id']}_{save_response[0]['id']}"
         post_photo(token, group_id, attachments, message=comic_comment)
-    except Exception as e:
-        print("Произошла ошибка", e)
     finally:
         os.remove(path=f"comic_{comic_number}.png")
