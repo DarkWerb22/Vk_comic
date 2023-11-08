@@ -36,7 +36,7 @@ def get_server_url(token, group_id):
     response = requests.get(url, params=params)
     response.raise_for_status()
     vk_response = check_vk_response(response)
-    return vk_response['response']
+    return vk_response['response']['upload_url']
 
 
 def upload_image(url, path):
@@ -90,8 +90,7 @@ if __name__=="__main__":
     comics_amount = 2842
     comic_number = random.randint(1, comics_amount)
     try:
-        upload_server = get_server_url(token, group_id)
-        upload_url = upload_server["upload_url"]
+        upload_url = get_server_url(token, group_id)
 
         comic_url = f"https://xkcd.com/{comic_number}/info.0.json"
         comic_comment = download_comic(comic_url, path=f"comic_{comic_number}.png")
